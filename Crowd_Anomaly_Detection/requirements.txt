@@ -1,0 +1,8 @@
+# Minimal deps to run the pretrained spatiotemporal autoencoder
+# Note: TensorFlow does not yet support NumPy 2.x in many builds, so we pin <2.
+numpy<2
+tensorflow
+opencv-python
+scikit-image
+Pillow
+h5py
