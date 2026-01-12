@@ -19,7 +19,7 @@ This system addresses that by converting video input into a **risk classificatio
 
 ---
 
-## Your Task (Project Objective)
+## (Project Objective)
 
 Design and implement a logic-driven AI system that:
 - Accepts video input (pre-recorded or simulated)
@@ -250,6 +250,3 @@ Marks an alert as acknowledged.
 
 ---
 
-## License
-
-Add your license here if you plan to distribute this project.
