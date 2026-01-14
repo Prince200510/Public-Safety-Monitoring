@@ -164,7 +164,7 @@ async def analyze(
 
     return {
         "userEmail": userEmail,
-        "location": location or "Kandavli",
+        "location": location or "Kandivali",
         **result_payload,
         "alertCreated": alert_created,
         "alert": alert,
