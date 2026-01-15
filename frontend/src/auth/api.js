@@ -6,7 +6,6 @@ export async function analyzeVideo({ file, userEmail, location, options }) {
   form.append('userEmail', userEmail)
   form.append('location', location)
   form.append('analyzer', 'autoencoder')
-
   const o = options || {}
   form.append('sampleEverySeconds', String(o.sampleEverySeconds ?? 0.2))
   form.append('thresholdLow', String(o.thresholdLow ?? 0.0008))
@@ -71,6 +70,21 @@ export async function fetchLocations() {
   if (!res.ok) {
      const txt = await res.text()
     throw new Error(txt || `Fetch locations failed (${res.status})`)
+  }
+  return res.json()
+}
+
+export async function stopLocation(userEmail) {
+  const form = new FormData()
+  form.append('userEmail', userEmail)
+
+  const res = await fetch(`${DEFAULTS.apiBaseUrl}/api/location/stop`, {
+    method: 'POST',
+    body: form,
+  })
+  if (!res.ok) {
+    const txt = await res.text()
+    throw new Error(txt || `Stop location failed (${res.status})`)
   }
   return res.json()
 }

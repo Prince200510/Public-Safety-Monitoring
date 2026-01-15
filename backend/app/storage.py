@@ -31,11 +31,14 @@ class LocationStore:
         }
 
     def _deserialize_location(self, d: dict) -> UserLocation:
+        ts = datetime.fromisoformat(d["timestamp"])
+        if ts.tzinfo is None:
+            ts = ts.replace(tzinfo=timezone.utc)
         return UserLocation(
             user_email=str(d["user_email"]),
             latitude=float(d["latitude"]),
             longitude=float(d["longitude"]),
-            timestamp=datetime.fromisoformat(d["timestamp"]),
+            timestamp=ts,
             active=bool(d["active"]),
         )
 
@@ -77,10 +80,9 @@ class LocationStore:
             self._save_to_disk()
             return loc
 
-    def get_active_locations(self) -> List[dict]:
+    def get_active_locations(self, *, max_age_seconds: int = 60) -> List[dict]:
         with self._lock:
-            # Filter distinct users, just returning list of their latest location
-            # Since we store by user_email in dict, it's already latest per user.
+            now = datetime.now(timezone.utc)
             active = [
                 {
                     "user_email": loc.user_email,
@@ -89,12 +91,13 @@ class LocationStore:
                     "timestamp": loc.timestamp.isoformat(),
                     "active": loc.active
                 }
-                for loc in self._locations.values() if loc.active
+                for loc in self._locations.values()
+                if loc.active and (now - loc.timestamp).total_seconds() <= float(max_age_seconds)
             ]
             return active
 
     def remove_location(self, user_email: str) -> None:
-         with self._lock:
+        with self._lock:
             if user_email in self._locations:
                 del self._locations[user_email]
                 self._save_to_disk()

@@ -29,3 +29,4 @@ frontend/.env
 backend/.env
 frontend/node_modules
 Crowd_Anomaly_Detection/videos
+backend/uploads

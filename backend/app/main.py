@@ -200,4 +200,13 @@ def update_location(
 
 @app.get("/api/locations")
 def get_locations():
-    return {"locations": location_store.get_active_locations()}
+    return {"locations": location_store.get_active_locations(max_age_seconds=60)}
+
+
+@app.post("/api/location/stop")
+def stop_location(userEmail: str = Form(...)):
+    email = (userEmail or "").strip()
+    if not email:
+        raise HTTPException(status_code=400, detail="Missing userEmail")
+    location_store.remove_location(email)
+    return {"status": "ok"}

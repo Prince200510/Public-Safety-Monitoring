@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DEFAULTS } from '../auth/config.js'
-import { analyzeVideo, updateLocation } from '../auth/api.js'
+import { analyzeVideo, stopLocation, updateLocation } from '../auth/api.js'
 import { clearSession, getSession } from '../auth/session.js'
 import ThemeToggle from '../components/ThemeToggle.jsx'
 
@@ -9,6 +9,7 @@ export default function UserDashboard() {
   const nav = useNavigate()
   const session = getSession()
   const [location, setLocation] = useState(DEFAULTS.defaultLocation)
+  const [locationTouched, setLocationTouched] = useState(false)
   const [file, setFile] = useState(null)
   const [busy, setBusy] = useState(false)
   const [result, setResult] = useState(null)
@@ -27,32 +28,97 @@ export default function UserDashboard() {
 
   const [isSharing, setIsSharing] = useState(false)
   const [locationStatus, setLocationStatus] = useState('')
+  const lastCoordsRef = useRef(null)
+
+  const mapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+
+  function getPositionOnce() {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error('Geolocation not supported'))
+        return
+      }
+      navigator.geolocation.getCurrentPosition(
+        (pos) => resolve(pos),
+        (err) => reject(err),
+        { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 },
+      )
+    })
+  }
+
+  async function reverseGeocode(lat, lng) {
+    if (!mapsApiKey) return null
+    const url = new URL('https://maps.googleapis.com/maps/api/geocode/json')
+    url.searchParams.set('latlng', `${lat},${lng}`)
+    url.searchParams.set('key', mapsApiKey)
+    const res = await fetch(url.toString())
+    if (!res.ok) return null
+    const data = await res.json()
+    const first = Array.isArray(data?.results) ? data.results[0] : null
+    return first?.formatted_address || null
+  }
 
   useEffect(() => {
-    let id
-    if (isSharing) {
-      const update = () => {
-         if (!navigator.geolocation) {
-           setLocationStatus('Geolocation not supported')
-           return
-         }
-         navigator.geolocation.getCurrentPosition(
-           (pos) => {
-             updateLocation(userEmail, pos.coords.latitude, pos.coords.longitude)
-               .then(() => setLocationStatus('Last sent: ' + new Date().toLocaleTimeString()))
-               .catch(e => setLocationStatus('Error: ' + e.message))
-           },
-           (err) => {
-             setLocationStatus('GPS Error: ' + err.message)
-           }
-         )
+    if (!userEmail) return
+    if (!navigator.geolocation) {
+      setLocationStatus('Geolocation not supported in this browser')
+      return
+    }
+
+    let cancelled = false
+    const tryAutoStart = async () => {
+      try {
+        if (!navigator.permissions?.query) return
+        const perm = await navigator.permissions.query({ name: 'geolocation' })
+        if (cancelled) return
+        if (perm.state === 'granted') setIsSharing(true)
+      } catch {
+        alert('Error checking geolocation permissions');
       }
-      update()
-      id = setInterval(update, 10000)
+    }
+    tryAutoStart()
+
+    return () => {
+      cancelled = true
+    }
+  }, [userEmail])
+
+  useEffect(() => {
+    if (!userEmail) {
+      setLocationStatus('')
+      return
+    }
+    if (!navigator.geolocation) {
+      setLocationStatus(isSharing ? 'Geolocation not supported' : '')
+      return
+    }
+
+    let watchId = null
+
+    if (isSharing) {
+      setLocationStatus('Requesting GPS permission…')
+      watchId = navigator.geolocation.watchPosition(
+        (pos) => {
+          const lat = pos.coords.latitude
+          const lng = pos.coords.longitude
+          lastCoordsRef.current = { lat, lng }
+          updateLocation(userEmail, lat, lng)
+            .then(() => setLocationStatus('Last sent: ' + new Date().toLocaleTimeString()))
+            .catch((e) => setLocationStatus('Error: ' + e.message))
+        },
+        (err) => {
+          setLocationStatus('GPS Error: ' + err.message)
+        },
+        { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 },
+      )
     } else {
+      stopLocation(userEmail).catch(() => {})
       setLocationStatus('')
     }
-    return () => clearInterval(id)
+
+    return () => {
+      if (watchId !== null) navigator.geolocation.clearWatch(watchId)
+    }
   }, [isSharing, userEmail])
 
   const stats = useMemo(() => {
@@ -95,7 +161,24 @@ export default function UserDashboard() {
       return
     }
 
-    const loc = (location || '').trim() || DEFAULTS.defaultLocation
+    let loc = (location || '').trim() || DEFAULTS.defaultLocation
+
+    // If GPS is available and the user grants access, override the alert location
+    // with a reverse-geocoded place name (so it's not the default text).
+    try {
+      const pos = await getPositionOnce()
+      const lat = pos.coords.latitude
+      const lng = pos.coords.longitude
+      lastCoordsRef.current = { lat, lng }
+      await updateLocation(userEmail, lat, lng)
+      const name = await reverseGeocode(lat, lng)
+      if (name) {
+        loc = name
+        if (!locationTouched) setLocation(name)
+      }
+    } catch {
+      // Permission denied / GPS unavailable: keep the current location string.
+    }
 
     setBusy(true)
     try {
@@ -138,7 +221,6 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
-
       <div className="mx-auto max-w-6xl px-4 py-6">
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="space-y-6">
@@ -146,9 +228,7 @@ export default function UserDashboard() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-bold">AI-Based Public Safety Monitoring & Risk Detection</h2>
-                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                    Upload a video clip to detect abnormal crowd-level motion patterns and generate a timestamped risk timeline.
-                  </p>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Upload a video clip to detect abnormal crowd-level motion patterns and generate a timestamped risk timeline.</p>
                 </div>
                 <div className="text-xs text-slate-600 dark:text-slate-300">Default location: <span className="font-semibold">{DEFAULTS.defaultLocation}</span></div>
               </div>
@@ -176,40 +256,28 @@ export default function UserDashboard() {
                   <div className="mt-2">Focuses on crowd behavior and risk classification. No face recognition or individual identification.</div>
                 </div>
               </div>
-              
               <div className="mt-6 rounded-2xl border border-blue-200/70 bg-blue-50/50 p-4 dark:border-blue-900/30 dark:bg-blue-900/10">
                  <div className="flex items-center justify-between">
                     <div>
                         <div className="text-sm font-bold text-slate-800 dark:text-slate-200">Emergency Location Sharing</div>
                         <div className="text-xs text-slate-600 dark:text-slate-400">Share your live location with police.</div>
                     </div>
-                    <button 
-                        type="button"
-                        onClick={() => setIsSharing(!isSharing)}
-                        className={`rounded-xl px-4 py-2 text-sm font-semibold shadow-sm transition-colors ${
-                            isSharing 
-                            ? 'bg-red-100 text-red-700 hover:bg-red-200 border border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800'
-                            : 'bg-blue-600 text-white hover:bg-blue-700'
-                        }`}
-                    >
-                        {isSharing ? 'Stop Sharing' : 'Share Location'}
-                    </button>
-                 </div>
-                 {isSharing && (
-                     <div className="mt-2 flex items-center gap-2 text-xs text-blue-700 dark:text-blue-300">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                        </span>
-                        {locationStatus || 'Initializing GPS...'}
-                     </div>
-                 )}
+                    <button type="button" onClick={() => setIsSharing(!isSharing)} className={`rounded-xl px-4 py-2 text-sm font-semibold shadow-sm transition-colors ${ isSharing  ? 'bg-red-100 text-red-700 hover:bg-red-200 border border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800' : 'bg-blue-600 text-white hover:bg-blue-700' }`}>{isSharing ? 'Stop Sharing' : 'Share Location'}</button>
+                  </div>
+                  {isSharing && (
+                    <div className="mt-2 flex items-center gap-2 text-xs text-blue-700 dark:text-blue-300">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                      </span>
+                      {locationStatus || 'Initializing GPS...'}
+                    </div>
+                  )}
               </div>
-
               <form onSubmit={onAnalyze} className="mt-5 space-y-4">
                 <div>
                   <label className="text-sm font-semibold">Location</label>
-                  <input className="mt-2 w-full rounded-xl border border-slate-200 bg-white/80 px-3 py-2 outline-none ring-indigo-500 focus:ring-2 dark:border-white/10 dark:bg-slate-950/40" value={location} onChange={(e) => setLocation(e.target.value)} placeholder={DEFAULTS.defaultLocation} />
+                  <input className="mt-2 w-full rounded-xl border border-slate-200 bg-white/80 px-3 py-2 outline-none ring-indigo-500 focus:ring-2 dark:border-white/10 dark:bg-slate-950/40" value={location} onChange={(e) => { setLocationTouched(true); setLocation(e.target.value) }} placeholder={DEFAULTS.defaultLocation} />
                 </div>
                 <div>
                   <label className="text-sm font-semibold">Video file</label>
