@@ -16,6 +16,7 @@ from .models import RiskLevel
 from .storage import AlertStore, LocationStore
 from .stream_manager import stream_manager
 from .realtime_analyzer_fast import analyze_video_realtime
+from .emergency_response import get_emergency_response_engine
 
 app = FastAPI(title="Crowd Risk API", version="0.1.0")
 store = AlertStore()
@@ -23,7 +24,7 @@ location_store = LocationStore()
 
 cors_origins = os.getenv(
     "CORS_ALLOW_ORIGINS",
-    "http://localhost:5173,http://127.0.0.1:5173,http://192.168.0.106:5173,https://public-safety-monitoring.vercel.app",
+    "http://localhost:5173,http://127.0.0.1:5173,http://192.168.0.106:5173,http://172.30.1.252:5173/, https://public-safety-monitoring.vercel.app",
 )
 allow_origins = [o.strip() for o in cors_origins.split(",") if o.strip()]
 app.add_middleware(
@@ -232,6 +233,7 @@ async def analyze(
 
     alert_created = False
     alert = None
+    emergency_recommendation = None
 
     if result_payload["riskLevel"] in {RiskLevel.MEDIUM.value, RiskLevel.HIGH.value}:
         alert_created = True
@@ -247,6 +249,23 @@ async def analyze(
             supporting_factors=list(result_payload.get("supportingFactors") or []),
             explanation=str(result_payload.get("explanation", "") or ""),
         )
+        
+        # Generate emergency response recommendation for MEDIUM and HIGH-risk events
+        if alert_obj.risk_level in [RiskLevel.MEDIUM, RiskLevel.HIGH]:
+            try:
+                engine = get_emergency_response_engine()
+                emergency_recommendation = engine.generate_recommendation(
+                    alert=alert_obj,
+                    area_affected=location,  # Use the location from alert
+                    duration_seconds=alert_obj.event_time_seconds,
+                    escalation_trend="stable"  # Can be enhanced with trend analysis
+                )
+                # Store recommendation with alert
+                alert_obj.emergency_response = emergency_recommendation
+                store.save()  # Persist the updated alert with recommendation
+            except Exception as e:
+                print(f"Failed to generate emergency response: {e}")
+        
         alert = {
             "id": alert_obj.id,
             "created_at": alert_obj.created_at.isoformat(),
@@ -260,6 +279,7 @@ async def analyze(
             "primary_cause": alert_obj.primary_cause,
             "supporting_factors": list(alert_obj.supporting_factors or []),
             "explanation": alert_obj.explanation,
+            "emergency_response": emergency_recommendation,
         }
 
     return {
@@ -280,6 +300,64 @@ def acknowledge(alert_id: str):
     if updated is None:
         raise HTTPException(status_code=404, detail="Alert not found")
     return updated
+
+@app.post("/api/alerts/{alert_id}/emergency-response")
+def generate_emergency_response(
+    alert_id: str,
+    area_affected: str = Form(None),
+    duration_seconds: float = Form(None),
+    escalation_trend: str = Form(None)
+):
+    """
+    Generate or regenerate emergency response recommendation for an alert.
+    This is called when a user shares an alert to police.
+    """
+    # Get the alert
+    alerts = store.list_alerts(include_acknowledged=True)
+    alert = next((a for a in alerts if a["id"] == alert_id), None)
+    
+    if not alert:
+        raise HTTPException(status_code=404, detail="Alert not found")
+    
+    # Convert alert dict to Alert object for the engine
+    from .models import Alert
+    alert_obj = Alert(
+        id=alert["id"],
+        created_at=datetime.fromisoformat(alert["created_at"]) if isinstance(alert["created_at"], str) else alert["created_at"],
+        user_email=alert["user_email"],
+        location=alert["location"],
+        risk_level=RiskLevel(alert["risk_level"]),
+        risk_score=float(alert["risk_score"]),
+        file_name=alert["file_name"],
+        event_time_seconds=float(alert["event_time_seconds"]),
+        confidence=float(alert.get("confidence", 0.0)),
+        primary_cause=alert.get("primary_cause", ""),
+        supporting_factors=alert.get("supporting_factors"),
+        explanation=alert.get("explanation", ""),
+        acknowledged_at=datetime.fromisoformat(alert["acknowledged_at"]) if alert.get("acknowledged_at") and isinstance(alert["acknowledged_at"], str) else alert.get("acknowledged_at"),
+    )
+    
+    try:
+        engine = get_emergency_response_engine()
+        recommendation = engine.generate_recommendation(
+            alert=alert_obj,
+            area_affected=area_affected,
+            duration_seconds=duration_seconds,
+            escalation_trend=escalation_trend
+        )
+        
+        # Update alert with recommendation
+        alert_obj.emergency_response = recommendation
+        store.update_alert_emergency_response(alert_id, recommendation)
+        
+        return {
+            "status": "ok",
+            "alert_id": alert_id,
+            "emergency_response": recommendation
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate recommendation: {str(e)}")
 
 @app.post("/api/location")
 def update_location(

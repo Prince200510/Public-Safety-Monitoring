@@ -139,6 +139,7 @@ class AlertStore:
             supporting_factors=list(d.get("supporting_factors") or d.get("supportingFactors") or []),
             explanation=str(d.get("explanation", "") or ""),
             acknowledged_at=acknowledged_at,
+            emergency_response=d.get("emergency_response"),
         )
 
     def _load_from_disk(self) -> None:
@@ -221,3 +222,18 @@ class AlertStore:
                 alert.acknowledged_at = datetime.now(timezone.utc)
             self._save_to_disk()
             return self._serialize_alert(alert)
+
+    def update_alert_emergency_response(self, alert_id: str, emergency_response: dict) -> Optional[dict]:
+        """Update an alert with emergency response recommendation"""
+        with self._lock:
+            alert = self._alerts.get(alert_id)
+            if alert is None:
+                return None
+            alert.emergency_response = emergency_response
+            self._save_to_disk()
+            return self._serialize_alert(alert)
+    
+    def save(self) -> None:
+        """Public method to save alerts to disk"""
+        with self._lock:
+            self._save_to_disk()

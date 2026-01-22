@@ -100,16 +100,14 @@ export default function Map({ locations = [], selectedUserEmail = '', onSelectUs
     if (!map) return
     if (cleanedLocations.length === 0) return
 
-    // Fit bounds to all markers for a polished “ops map” feel.
     try {
       const bounds = new window.google.maps.LatLngBounds()
       for (const loc of cleanedLocations) bounds.extend({ lat: loc.latitude, lng: loc.longitude })
       map.fitBounds(bounds)
 
-      // If there is only one marker, fitBounds zooms too far sometimes.
       if (cleanedLocations.length === 1) map.setZoom(14)
     } catch {
-      // ignore
+
     }
   }, [cleanedLocations])
 
@@ -124,7 +122,7 @@ export default function Map({ locations = [], selectedUserEmail = '', onSelectUs
       map.panTo({ lat: loc.latitude, lng: loc.longitude })
       if ((map.getZoom?.() || 0) < 14) map.setZoom(14)
     } catch {
-      // ignore
+
     }
   }, [selected, cleanedLocations])
 
@@ -218,6 +216,7 @@ export default function Map({ locations = [], selectedUserEmail = '', onSelectUs
               >
                 <div className="min-w-[180px]">
                   <div className="text-sm font-semibold text-slate-900">{loc.user_email}</div>
+                  <div className="text-sm font-semibold text-slate-900">Emergency contact no:- 9987742369</div>
                   <div className="mt-1 text-xs text-slate-600">
                     Last update: {relativeTime(loc.timestamp) || '—'}
                   </div>

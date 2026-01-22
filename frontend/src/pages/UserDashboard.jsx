@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DEFAULTS } from '../auth/config.js'
-import { analyzeVideo, stopLocation, updateLocation } from '../auth/api.js'
+import { analyzeVideo, stopLocation, updateLocation, generateEmergencyResponse } from '../auth/api.js'
 import { clearSession, getSession } from '../auth/session.js'
 import ThemeToggle from '../components/ThemeToggle.jsx'
 
@@ -202,6 +202,26 @@ export default function UserDashboard() {
           includeLosses: true,
         },
       })
+      
+      // If MEDIUM or HIGH-risk alert and alert was created, generate emergency response
+      if ((data.riskLevel === 'MEDIUM' || data.riskLevel === 'HIGH') && data.alert && data.alert.id) {
+        try {
+          const emergencyResp = await generateEmergencyResponse(data.alert.id, {
+            areaAffected: loc,
+            durationSeconds: data.alert.event_time_seconds,
+            escalationTrend: 'stable'
+          })
+          
+          // Update the result with emergency response
+          if (emergencyResp.emergency_response) {
+            data.alert.emergency_response = emergencyResp.emergency_response
+          }
+        } catch (err) {
+          console.error('Failed to generate emergency response:', err)
+          // Don't fail the whole analysis if emergency response fails
+        }
+      }
+      
       setResult(data)
     } catch (err) {
       setError(err?.message || String(err))

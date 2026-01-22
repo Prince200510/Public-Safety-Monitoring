@@ -12,7 +12,8 @@
     "primary_cause": "",
     "supporting_factors": [],
     "explanation": "",
-    "acknowledged_at": "2026-01-12T15:13:18.553817+00:00"
+    "acknowledged_at": "2026-01-12T15:13:18.553817+00:00",
+    "emergency_response": null
   },
   {
     "id": "a6b4c394-093d-4394-86f3-1600526eced6",
@@ -27,7 +28,8 @@
     "primary_cause": "",
     "supporting_factors": [],
     "explanation": "",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "1674aa19-ab9d-4ad1-a327-23e3a7134baf",
@@ -42,7 +44,8 @@
     "primary_cause": "",
     "supporting_factors": [],
     "explanation": "",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "b56493df-a77f-4752-8c2f-8a2a576c3e65",
@@ -57,7 +60,8 @@
     "primary_cause": "",
     "supporting_factors": [],
     "explanation": "",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "5e4f1abc-0316-462e-9312-b52710c08dc7",
@@ -72,7 +76,8 @@
     "primary_cause": "",
     "supporting_factors": [],
     "explanation": "",
-    "acknowledged_at": "2026-01-15T11:57:07.974671+00:00"
+    "acknowledged_at": "2026-01-15T11:57:07.974671+00:00",
+    "emergency_response": null
   },
   {
     "id": "97095297-1474-4651-b812-0138cfae179e",
@@ -87,7 +92,8 @@
     "primary_cause": "",
     "supporting_factors": [],
     "explanation": "",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "d4de4452-e6f2-47f5-95ab-10232cd6e35b",
@@ -102,7 +108,8 @@
     "primary_cause": "Sustained anomaly persistence",
     "supporting_factors": [],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- None\nConfidence: 0.46",
-    "acknowledged_at": "2026-01-21T06:36:32.498180+00:00"
+    "acknowledged_at": "2026-01-21T06:36:32.498180+00:00",
+    "emergency_response": null
   },
   {
     "id": "4429ddeb-e3d9-42bd-b23e-846fc2f195d9",
@@ -121,7 +128,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": "2026-01-21T06:26:15.072458+00:00"
+    "acknowledged_at": "2026-01-21T06:26:15.072458+00:00",
+    "emergency_response": null
   },
   {
     "id": "f09dd61f-6905-4872-8823-3a0c7c6932e5",
@@ -140,7 +148,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": "2026-01-21T06:36:32.485649+00:00"
+    "acknowledged_at": "2026-01-21T06:36:32.485649+00:00",
+    "emergency_response": null
   },
   {
     "id": "51b03c54-716a-43e4-bbdb-31488efbed10",
@@ -159,7 +168,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "8b6bb857-2aa4-47a2-885e-fab87074c82b",
@@ -178,7 +188,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": "2026-01-21T06:59:29.298707+00:00"
+    "acknowledged_at": "2026-01-21T06:59:29.298707+00:00",
+    "emergency_response": null
   },
   {
     "id": "3d8272fc-fd6e-41f1-999e-36218000a28f",
@@ -197,7 +208,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "643753d9-8bc0-46c3-809a-40b4feb265b9",
@@ -216,7 +228,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "624eed98-0cfc-49dd-b163-2333c3542766",
@@ -235,7 +248,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:36\nRisk Score: 31\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "0721133e-3f9f-402f-8e49-c2bd06a2947c",
@@ -254,7 +268,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "0f90b253-3a51-46f4-8a71-e807e0c4fc89",
@@ -273,7 +288,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "4d8a6442-b79b-4517-9178-cd1d0bdbb158",
@@ -292,7 +308,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:36\nRisk Score: 31\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
   },
   {
     "id": "79affb63-4188-4c8e-be34-eb01e752576f",
@@ -311,7 +328,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": "2026-01-21T09:32:34.618166+00:00"
+    "acknowledged_at": "2026-01-21T09:32:34.618166+00:00",
+    "emergency_response": null
   },
   {
     "id": "c221ba6b-5cdc-4263-bae1-edc3550caeb5",
@@ -330,7 +348,8 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": "2026-01-21T09:32:29.455016+00:00"
+    "acknowledged_at": "2026-01-21T09:32:29.455016+00:00",
+    "emergency_response": null
   },
   {
     "id": "53729df9-69c4-49b9-bf15-472713a4e14f",
@@ -349,6 +368,177 @@
       "Density increase below threshold"
     ],
     "explanation": "Time: 00:00:24\nRisk Score: 33\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.46",
-    "acknowledged_at": null
+    "acknowledged_at": null,
+    "emergency_response": null
+  },
+  {
+    "id": "8df34749-58de-45cc-be4d-68e0ecb61059",
+    "created_at": "2026-01-22T05:19:21.583566+00:00",
+    "user_email": "prince@gmail.com",
+    "location": "Kandivali",
+    "risk_level": "MEDIUM",
+    "risk_score": 40.919501281986456,
+    "file_name": "videoplayback.mp4",
+    "event_time_seconds": 20.0,
+    "confidence": 0.47724019179655064,
+    "primary_cause": "Sustained anomaly persistence",
+    "supporting_factors": [
+      "Crowd acceleration not dominant",
+      "Localized impact (spread below threshold)",
+      "Density increase below threshold"
+    ],
+    "explanation": "Time: 00:00:20\nRisk Score: 35\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.48",
+    "acknowledged_at": null,
+    "emergency_response": null
+  },
+  {
+    "id": "9e7b9a90-da64-40ee-a91b-2a1db41d0c71",
+    "created_at": "2026-01-22T05:38:28.947764+00:00",
+    "user_email": "prince@gmail.com",
+    "location": "Kandivali",
+    "risk_level": "MEDIUM",
+    "risk_score": 40.919501281986456,
+    "file_name": "videoplayback.mp4",
+    "event_time_seconds": 20.0,
+    "confidence": 0.47724019179655064,
+    "primary_cause": "Sustained anomaly persistence",
+    "supporting_factors": [
+      "Crowd acceleration not dominant",
+      "Localized impact (spread below threshold)",
+      "Density increase below threshold"
+    ],
+    "explanation": "Time: 00:00:20\nRisk Score: 35\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.48",
+    "acknowledged_at": null,
+    "emergency_response": null
+  },
+  {
+    "id": "0ff8eb12-ef18-4704-a0b0-010b2b35a766",
+    "created_at": "2026-01-22T05:43:27.646441+00:00",
+    "user_email": "prince@gmail.com",
+    "location": "Kandivali",
+    "risk_level": "MEDIUM",
+    "risk_score": 40.919501281986456,
+    "file_name": "videoplayback.mp4",
+    "event_time_seconds": 20.0,
+    "confidence": 0.47724019179655064,
+    "primary_cause": "Sustained anomaly persistence",
+    "supporting_factors": [
+      "Crowd acceleration not dominant",
+      "Localized impact (spread below threshold)",
+      "Density increase below threshold"
+    ],
+    "explanation": "Time: 00:00:20\nRisk Score: 35\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.48",
+    "acknowledged_at": null,
+    "emergency_response": null
+  },
+  {
+    "id": "592f04fb-cd6b-4140-894c-60f54b8299fd",
+    "created_at": "2026-01-22T05:44:42.511508+00:00",
+    "user_email": "princemaurya8879@gmail.com",
+    "location": "Kandivali",
+    "risk_level": "MEDIUM",
+    "risk_score": 40.919501281986456,
+    "file_name": "videoplayback.mp4",
+    "event_time_seconds": 20.0,
+    "confidence": 0.47724019179655064,
+    "primary_cause": "Sustained anomaly persistence",
+    "supporting_factors": [
+      "Crowd acceleration not dominant",
+      "Localized impact (spread below threshold)",
+      "Density increase below threshold"
+    ],
+    "explanation": "Time: 00:00:20\nRisk Score: 35\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.48",
+    "acknowledged_at": null,
+    "emergency_response": null
+  },
+  {
+    "id": "5d8705a2-3744-445f-ae33-26dda8a7ef1d",
+    "created_at": "2026-01-22T05:48:49.631603+00:00",
+    "user_email": "prince@gmail.com",
+    "location": "Kandivali",
+    "risk_level": "MEDIUM",
+    "risk_score": 40.919501281986456,
+    "file_name": "videoplayback.mp4",
+    "event_time_seconds": 20.0,
+    "confidence": 0.47724019179655064,
+    "primary_cause": "Sustained anomaly persistence",
+    "supporting_factors": [
+      "Crowd acceleration not dominant",
+      "Localized impact (spread below threshold)",
+      "Density increase below threshold"
+    ],
+    "explanation": "Time: 00:00:20\nRisk Score: 35\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.48",
+    "acknowledged_at": null,
+    "emergency_response": null
+  },
+  {
+    "id": "ceb18078-4ed7-45d6-81cd-18b9fc301c97",
+    "created_at": "2026-01-22T05:51:03.485723+00:00",
+    "user_email": "prince@gmail.com",
+    "location": "Kandivali",
+    "risk_level": "MEDIUM",
+    "risk_score": 40.919501281986456,
+    "file_name": "videoplayback.mp4",
+    "event_time_seconds": 20.0,
+    "confidence": 0.47724019179655064,
+    "primary_cause": "Sustained anomaly persistence",
+    "supporting_factors": [
+      "Crowd acceleration not dominant",
+      "Localized impact (spread below threshold)",
+      "Density increase below threshold"
+    ],
+    "explanation": "Time: 00:00:20\nRisk Score: 35\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.48",
+    "acknowledged_at": null,
+    "emergency_response": null
+  },
+  {
+    "id": "057ed4a2-60e1-4bb9-a3d1-dbe018756d54",
+    "created_at": "2026-01-22T05:54:09.616917+00:00",
+    "user_email": "prince@gmail.com",
+    "location": "Kandivali",
+    "risk_level": "MEDIUM",
+    "risk_score": 40.919501281986456,
+    "file_name": "videoplayback.mp4",
+    "event_time_seconds": 20.0,
+    "confidence": 0.47724019179655064,
+    "primary_cause": "Sustained anomaly persistence",
+    "supporting_factors": [
+      "Crowd acceleration not dominant",
+      "Localized impact (spread below threshold)",
+      "Density increase below threshold"
+    ],
+    "explanation": "Time: 00:00:20\nRisk Score: 35\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.48",
+    "acknowledged_at": null,
+    "emergency_response": null
+  },
+  {
+    "id": "ae7b65e3-23a9-4800-99be-5ada4a720453",
+    "created_at": "2026-01-22T05:57:00.110848+00:00",
+    "user_email": "prince@gmail.com",
+    "location": "Kandivali",
+    "risk_level": "MEDIUM",
+    "risk_score": 40.919501281986456,
+    "file_name": "videoplayback.mp4",
+    "event_time_seconds": 20.0,
+    "confidence": 0.47724019179655064,
+    "primary_cause": "Sustained anomaly persistence",
+    "supporting_factors": [
+      "Crowd acceleration not dominant",
+      "Localized impact (spread below threshold)",
+      "Density increase below threshold"
+    ],
+    "explanation": "Time: 00:00:20\nRisk Score: 35\nRisk Level: MEDIUM\nPrimary Cause: Sustained anomaly persistence\nSupporting Factors:\n- Crowd acceleration not dominant\n- Localized impact (spread below threshold)\n- Density increase below threshold\nConfidence: 0.48",
+    "acknowledged_at": null,
+    "emergency_response": {
+      "time": "05:57:00",
+      "risk_level": "MEDIUM",
+      "unit": "Crowd Control Police",
+      "action": "Increase monitoring, document patterns, alert response teams",
+      "urgency": "Medium",
+      "reasoning": [
+        "Sustained anomaly detected requiring attention",
+        "Risk score 40.9195 indicates MEDIUM-level concern"
+      ]
+    }
   }
 ]

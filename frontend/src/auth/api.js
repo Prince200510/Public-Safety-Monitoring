@@ -88,3 +88,20 @@ export async function stopLocation(userEmail) {
   }
   return res.json()
 }
+
+export async function generateEmergencyResponse(alertId, options = {}) {
+  const form = new FormData()
+  if (options.areaAffected) form.append('area_affected', options.areaAffected)
+  if (options.durationSeconds) form.append('duration_seconds', String(options.durationSeconds))
+  if (options.escalationTrend) form.append('escalation_trend', options.escalationTrend)
+
+  const res = await fetch(`${DEFAULTS.apiBaseUrl}/api/alerts/${alertId}/emergency-response`, {
+    method: 'POST',
+    body: form,
+  })
+  if (!res.ok) {
+    const txt = await res.text()
+    throw new Error(txt || `Emergency response generation failed (${res.status})`)
+  }
+  return res.json()
+}
