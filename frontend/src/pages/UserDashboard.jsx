@@ -10,6 +10,7 @@ export default function UserDashboard() {
   const session = getSession()
   const [location, setLocation] = useState(DEFAULTS.defaultLocation)
   const [locationTouched, setLocationTouched] = useState(false)
+  const [phoneNumber, setPhoneNumber] = useState('')
   const [file, setFile] = useState(null)
   const [busy, setBusy] = useState(false)
   const [result, setResult] = useState(null)
@@ -410,6 +411,10 @@ export default function UserDashboard() {
                 <div>
                   <label className="text-sm font-semibold">Location</label>
                   <input className="mt-2 w-full rounded-xl border border-slate-200 bg-white/80 px-3 py-2 outline-none ring-indigo-500 focus:ring-2 dark:border-white/10 dark:bg-slate-950/40" value={location} onChange={(e) => { setLocationTouched(true); setLocation(e.target.value) }} placeholder={DEFAULTS.defaultLocation} />
+                </div>
+                <div>
+                  <label className="text-sm font-semibold">Phone Number</label>
+                  <input className="mt-2 w-full rounded-xl border border-slate-200 bg-white/80 px-3 py-2 outline-none ring-indigo-500 focus:ring-2 dark:border-white/10 dark:bg-slate-950/40" type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Enter your phone number" />
                 </div>
                 <div>
                   <label className="text-sm font-semibold">Video file</label>
